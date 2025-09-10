@@ -1,0 +1,653 @@
+/* ==== VARIABILI GLOBALI - STILE CHATGPT ==== */
+:root {
+  --bg-primary: #343541;     /* Sfondo principale (scuro grigio bluastro) */
+  --bg-secondary: #40414f;   /* Pannelli/chat (più chiaro del primario) */
+  --bg-tertiary: #4d4f5d;    /* Hover / selezione */
+  --text-primary: #ececf1;   /* Testo principale */
+  --text-secondary: #d7d7dd; /* Testo secondario */
+  --text-muted: #a0a0a6;     /* Testo disattivato / placeholder */
+  --accent-blue: #10a37f;    /* Accento primario (verde‑azzurro di ChatGPT) */
+  --accent-green: #86efac;   /* Successo (verde chiaro) */
+  --accent-purple: #a855f7;  /* Funzioni / pulsanti speciali */
+  --border: #565869;         /* Bordi */
+  --shadow: rgba(0, 0, 0, 0.25); /* Ombre */
+  --selection: #202123;      /* Sfondo selezione */
+}
+
+/* ==== RESET & BASE ==== */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Söhne', 'Helvetica Neue', Arial, sans-serif;
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  height: 100vh;
+  overflow: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+  font-size: 16px;
+  line-height: 1.6;
+}
+
+/* ==== LAYOUT PRINCIPALE ==== */
+.app-container {
+  display: flex;
+  height: 100vh;
+}
+
+/* ==== SIDEBAR - STILE CHATGPT ==== */
+.sidebar {
+  width: 260px;
+  background: var(--bg-primary);
+  border-right: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  transition: transform 0.3s ease;
+}
+
+.section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--border);
+}
+
+.section-header h3 {
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  color: var(--text-muted);
+  font-weight: 600;
+}
+
+.icon-btn {
+  background: none;
+  border: none;
+  color: var(--text-muted);
+  cursor: pointer;
+  font-size: 16px;
+  width: 24px;
+  height: 24px;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  user-select: none;
+  transition: color 0.2s;
+}
+
+.icon-btn:hover,
+.icon-btn:focus-visible {
+  color: var(--text-primary);
+}
+
+.sidebar-list {
+  list-style: none;
+  padding: 8px 0;
+}
+
+.sidebar-item {
+  padding: 10px 16px;
+  cursor: pointer;
+  font-size: 14px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: var(--text-secondary);
+  border-radius: 5px;
+  margin: 0 8px;
+  user-select: none;
+  transition: background 0.2s;
+}
+
+.sidebar-item:hover,
+.sidebar-item:focus {
+  background: var(--bg-tertiary);
+}
+
+.sidebar-item.active {
+  background: var(--bg-tertiary);
+  color: var(--text-primary);
+  font-weight: 500;
+}
+
+.item-actions {
+  display: none;
+  gap: 6px;
+}
+
+.sidebar-item:hover .item-actions,
+.sidebar-item:focus-within .item-actions {
+  display: flex;
+}
+
+.sidebar-footer {
+  margin-top: auto;
+  padding: 20px 16px;
+  border-top: 1px solid var(--border);
+}
+
+.user-info {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.user-avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: var(--accent-blue);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  color: white;
+  font-size: 14px;
+  user-select: none;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+}
+
+.settings-btn {
+  width: 100%;
+  padding: 10px 14px;
+  background: transparent;
+  color: var(--text-secondary);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+  text-align: center;
+  user-select: none;
+  transition: all 0.2s;
+}
+
+.settings-btn:hover,
+.settings-btn:focus-visible {
+  background: var(--bg-tertiary);
+  color: var(--text-primary);
+  border-color: var(--accent-blue);
+}
+
+/* ==== AREA CHAT - STILE CHATGPT ==== */
+.main-container {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.chat-header {
+  display: none; /* Nascosto come in ChatGPT desktop */
+  padding: 16px;
+  background: var(--bg-primary);
+  border-bottom: 1px solid var(--border);
+}
+
+.chat-messages {
+  flex: 1;
+  padding: 24px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  background: var(--bg-primary);
+  min-height: 0;
+  max-width: 800px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.message {
+  display: flex;
+  gap: 16px;
+  max-width: 100%;
+  align-items: flex-start;
+}
+
+.message.user {
+  flex-direction: row-reverse;
+  text-align: right;
+}
+
+.avatar {
+  width: 30px;
+  height: 30px;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  font-size: 14px;
+  font-weight: 500;
+  user-select: none;
+  background: var(--bg-secondary);
+  color: var(--text-primary);
+}
+
+.message.bot .avatar {
+  background: var(--accent-blue);
+  color: white;
+}
+
+.message.user .avatar {
+  background: var(--bg-tertiary);
+  color: var(--text-primary);
+}
+
+.message-content {
+  padding: 16px 20px;
+  border-radius: 10px;
+  font-size: 16px;
+  line-height: 1.6;
+  word-break: break-word;
+  position: relative;
+  max-width: calc(100% - 50px);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+.message.bot .message-content {
+  background: var(--bg-secondary);
+  border: 1px solid var(--border);
+  color: var(--text-primary);
+}
+
+.message.user .message-content {
+  background: var(--accent-blue);
+  color: white;
+  border: none;
+}
+
+.message-time {
+  font-size: 12px;
+  color: var(--text-muted);
+  margin-top: 8px;
+  text-align: right;
+  display: none; /* Nascosto come in ChatGPT */
+}
+
+/* ==== Formattazione codice - stile ChatGPT ==== */
+.message-content pre {
+  background: var(--bg-tertiary);
+  padding: 16px;
+  border-radius: 8px;
+  overflow-x: auto;
+  margin: 12px 0;
+  position: relative;
+  white-space: pre-wrap;
+  font-family: 'JetBrains Mono', 'Fira Code', monospace;
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--text-primary);
+}
+
+.message-content code {
+  font-family: inherit;
+  color: var(--accent-green);
+}
+
+.copy-button {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: rgba(255, 255, 255, 0.1);
+  color: var(--text-muted);
+  border: none;
+  border-radius: 4px;
+  padding: 4px 8px;
+  font-size: 12px;
+  cursor: pointer;
+  user-select: none;
+  opacity: 0;
+  transition: opacity 0.2s, background 0.2s;
+}
+
+.message-content:hover .copy-button {
+  opacity: 1;
+}
+
+.copy-button:hover,
+.copy-button:focus-visible {
+  background: rgba(255, 255, 255, 0.2);
+  color: var(--text-primary);
+}
+
+.copy-button.copied {
+  background: var(--accent-green);
+  color: #0d3b2e;
+  opacity: 1;
+}
+
+/* ==== Input - stile ChatGPT ==== */
+.chat-input-container {
+  padding: 16px 24px 24px;
+  background: var(--bg-primary);
+  border-top: 1px solid var(--border);
+  position: relative;
+}
+
+.input-row {
+  display: flex;
+  gap: 12px;
+  max-width: 800px;
+  margin: 0 auto;
+  background: var(--bg-secondary);
+  border-radius: 12px;
+  padding: 8px 12px;
+  border: 1px solid transparent;
+  transition: border-color 0.2s;
+}
+
+.input-row:focus-within {
+  border-color: var(--accent-blue);
+  box-shadow: 0 0 0 2px rgba(16, 163, 127, 0.3);
+}
+
+#user-input {
+  flex: 1;
+  padding: 12px 0;
+  border: none;
+  background: transparent;
+  color: var(--text-primary);
+  font-family: inherit;
+  font-size: 16px;
+  outline: none;
+  resize: none;
+  max-height: 200px;
+  line-height: 1.5;
+}
+
+#user-input::placeholder {
+  color: var(--text-muted);
+}
+
+#send-button {
+  width: 40px;
+  height: 40px;
+  background: var(--accent-blue);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s;
+  user-select: none;
+  flex-shrink: 0;
+}
+
+#send-button:hover,
+#send-button:focus-visible {
+  background: #0c8a6d;
+}
+
+#send-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.input-footer {
+  margin-top: 12px;
+  text-align: center;
+  font-size: 13px;
+  color: var(--text-muted);
+}
+
+.file-upload-label {
+  display: inline-block;
+  margin-right: 8px;
+  cursor: pointer;
+  padding: 6px 10px;
+  background: var(--bg-tertiary);
+  border-radius: 6px;
+  font-size: 13px;
+  user-select: none;
+  transition: background 0.2s;
+}
+
+.file-upload-label:hover {
+  background: var(--bg-secondary);
+}
+
+/* ==== Typing Indicator - stile ChatGPT ==== */
+.enhanced-typing-indicator {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 16px 24px;
+  min-height: 60px;
+  max-width: 800px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.typing-text {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.typing-text span {
+  display: block;
+  width: 8px;
+  height: 8px;
+  background: var(--accent-blue);
+  border-radius: 50%;
+  animation: pulse 1.5s infinite ease-in-out;
+  opacity: 0.6;
+}
+
+.typing-text span:nth-child(1) { animation-delay: 0s; }
+.typing-text span:nth-child(2) { animation-delay: 0.2s; }
+.typing-text span:nth-child(3) { animation-delay: 0.4s; }
+
+@keyframes pulse {
+  0%, 60%, 100% { transform: scale(1); opacity: 0.6; }
+  30% { transform: scale(1.2); opacity: 1; }
+}
+
+/* ==== Modale - stile ChatGPT ==== */
+.modal {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.5);
+  z-index: 1000;
+  align-items: center;
+  justify-content: center;
+  backdrop-filter: blur(2px);
+}
+
+.modal-content {
+  background: var(--bg-secondary);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  width: 90%;
+  max-width: 500px;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: 0 8px 24px var(--shadow);
+  animation: fadeIn 0.2s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: scale(0.95); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 24px;
+  border-bottom: 1px solid var(--border);
+}
+
+.modal-header h2 {
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.close-btn {
+  background: none;
+  border: none;
+  font-size: 24px;
+  color: var(--text-muted);
+  cursor: pointer;
+  user-select: none;
+  padding: 4px;
+  border-radius: 4px;
+}
+
+.close-btn:hover,
+.close-btn:focus-visible {
+  color: var(--text-primary);
+  background: var(--bg-tertiary);
+}
+
+.modal-body {
+  padding: 24px;
+}
+
+.setting-group {
+  margin-bottom: 24px;
+}
+
+.setting-group label {
+  display: block;
+  margin-bottom: 10px;
+  font-size: 14px;
+  color: var(--text-primary);
+  font-weight: 500;
+}
+
+#model-select,
+input[type="range"],
+input[type="text"] {
+  width: 100%;
+  padding: 12px;
+  background: var(--bg-tertiary);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  color: var(--text-primary);
+  font-family: inherit;
+  font-size: 14px;
+  transition: border-color 0.2s;
+}
+
+#model-select:focus,
+input[type="range"]:focus,
+input[type="text"]:focus {
+  border-color: var(--accent-blue);
+  outline: 2px solid transparent;
+}
+
+#model-select:focus-visible,
+input[type="range"]:focus-visible,
+input[type="text"]:focus-visible {
+  outline: 2px solid var(--accent-blue);
+}
+
+.modal-footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  padding: 20px 24px;
+  border-top: 1px solid var(--border);
+}
+
+.modal-footer button {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 500;
+  user-select: none;
+  transition: all 0.2s;
+}
+
+#save-settings {
+  background: var(--accent-blue);
+  color: white;
+}
+
+#save-settings:hover,
+#save-settings:focus-visible {
+  background: #0c8a6d;
+}
+
+#cancel-settings {
+  background: var(--bg-tertiary);
+  color: var(--text-primary);
+}
+
+#cancel-settings:hover,
+#cancel-settings:focus-visible {
+  background: var(--bg-secondary);
+}
+
+/* ==== Scrollbar personalizzata - stile ChatGPT ==== */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--border);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--text-muted);
+}
+
+/* ==== Responsive - stile mobile ChatGPT ==== */
+@media (max-width: 768px) {
+  .sidebar {
+    width: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 10;
+    transform: translateX(-100%);
+    height: 100vh;
+    will-change: transform;
+    box-shadow: 4px 0 12px rgba(0,0,0,0.3);
+  }
+  .sidebar.open {
+    transform: translateX(0);
+  }
+  .app-container {
+    flex-direction: column;
+  }
+  .chat-messages {
+    padding: 16px;
+  }
+  .input-row {
+    padding: 8px;
+    flex-direction: row;
+  }
+  #send-button {
+    width: 44px;
+    height: 44px;
+  }
+  .modal-content {
+    margin: 16px;
+    border-radius: 16px;
+  }
+}

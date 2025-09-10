@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>KrakenGPT</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="app-container">
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <!-- Sezione Progetti -->
+      <section class="sidebar-section">
+        <div class="section-header">
+          <h3>📂 Progetti</h3>
+          <button class="icon-btn new-project-btn" title="Nuovo Progetto" aria-label="Crea nuovo progetto">+</button>
+        </div>
+        <ul class="projects-list" id="projects-list">
+          <!-- Popolato da JS -->
+        </ul>
+      </section>
+
+      <!-- Sezione Chat Recenti -->
+      <section class="sidebar-section">
+        <div class="section-header">
+          <h3>💬 Chat recenti</h3>
+          <button class="icon-btn new-chat-btn" title="Nuova Chat" aria-label="Avvia nuova chat">+</button>
+        </div>
+        <ul class="conversation-history" id="conversation-history">
+          <!-- Popolato da JS -->
+        </ul>
+      </section>
+
+      <!-- Footer Sidebar -->
+      <footer class="sidebar-footer">
+        <div class="user-info">
+          <div class="user-avatar" aria-hidden="true">👤</div>
+          <span class="user-name">Utente</span>
+        </div>
+        <button class="settings-btn" id="open-settings">⚙️ Impostazioni</button>
+      </footer>
+    </aside>
+
+    <!-- Main Container -->
+    <main class="main-container">
+      <!-- Header Chat (invisibile su desktop) -->
+      <header class="chat-header">
+        <div class="avatar" aria-hidden="true">🤖</div>
+        <h1 id="chat-title">KrakenGPT — Nuova Chat</h1>
+        <button class="icon-btn delete-chat-btn" title="Elimina Chat" aria-label="Elimina chat corrente">🗑️</button>
+      </header>
+
+      <!-- Messaggi Chat -->
+      <section class="chat-messages" id="chat-messages" aria-live="polite" aria-atomic="false">
+        <!-- Messaggi popolati da JS -->
+      </section>
+
+      <!-- Input Chat -->
+      <footer class="chat-input-container">
+        <form class="input-row" id="chat-form" autocomplete="off">
+          <input
+            type="text"
+            id="user-input"
+            placeholder="Chiedi qualcosa a KrakenGPT..."
+            aria-label="Inserisci messaggio"
+            required
+          />
+          <button type="submit" id="send-button" aria-label="Invia messaggio">➤</button>
+        </form>
+        <div class="input-footer">
+          <label for="file-input" class="file-upload-label">
+            📎 Allega file
+            <input type="file" id="file-input" accept="image/*,.pdf,.txt" hidden />
+          </label>
+          <span>KrakenGPT può commettere errori. Verifica le informazioni importanti.</span>
+        </div>
+      </footer>
+    </main>
+  </div>
+
+  <!-- Modale Impostazioni -->
+  <div class="modal" id="settings-modal" role="dialog" aria-modal="true" aria-labelledby="settings-title" hidden>
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 id="settings-title">Impostazioni</h2>
+        <button class="close-btn" id="close-settings" aria-label="Chiudi impostazioni">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div class="setting-group">
+          <label for="provider-select">Provider</label>
+          <select id="provider-select">
+            <option value="azure">Azure</option>
+            <option value="openrouter">OpenRouter</option>
+          </select>
+        </div>
+
+        <div class="setting-group">
+          <label for="model-select">Modello</label>
+          <select id="model-select">
+            <!-- Popolato da JS -->
+          </select>
+        </div>
+
+        <div class="setting-group">
+          <label for="temperature">Temperatura: <span id="temperature-value">0.7</span></label>
+          <input type="range" id="temperature" min="0" max="1" step="0.1" value="0.7" />
+        </div>
+
+        <div class="setting-group">
+          <label for="max-tokens">Token massimi: <span id="max-tokens-value">13107</span></label>
+          <input type="range" id="max-tokens" min="100" max="32768" step="100" value="13107" />
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button id="save-settings">Salva</button>
+        <button id="cancel-settings">Annulla</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="script_simple.js"></script>
+</body>
+</html>
