@@ -104,10 +104,41 @@ async def load_openrouter_models():
         logger.error(f"Errore nella richiesta modelli OpenRouter: {e}")
         return OPENROUTER_SUPPORTED_MODELS
 
-# Modelli supportati per Local
-LOCAL_SUPPORTED_MODELS = [
-    "qwen/qwen3-4b-thinking-2507"
-]
+# Modelli supportati per Local (caricati dinamicamente da LM Studio)
+
+# Funzione per caricare i modelli locali dinamicamente
+async def load_local_models():
+    """Carica i modelli disponibili da LM Studio"""
+    try:
+        # Prova a recuperare i modelli da LM Studio
+        response = await http_client.get(
+            "http://localhost:1234/v1/models",
+            timeout=5.0
+        )
+        
+        if response.status == 200:
+            data = response.json()
+            models = []
+            
+            # LM Studio restituisce una lista di modelli
+            if isinstance(data, list):
+                for model in data:
+                    if isinstance(model, dict) and 'id' in model:
+                        models.append(model['id'])
+                    elif isinstance(model, str):
+                        models.append(model)
+            
+            if models:
+                logger.info(f"Caricati {len(models)} modelli locali da LM Studio")
+                return models
+        
+        # Se non riusciamo a caricare, restituiamo un messaggio di errore
+        logger.warning(f"Errore caricamento modelli locali: {response.status if 'response' in locals() else 'No response'}")
+        return ["Apri LM Studio per caricare i modelli locali"]
+        
+    except Exception as e:
+        logger.error(f"Errore nella richiesta modelli locali: {e}")
+        return ["Apri LM Studio per caricare i modelli locali"]
 
 # Provider configuration
 DEFAULT_PROVIDER = "azure"  # Default provider
@@ -192,13 +223,16 @@ async def get_models():
     # Carica dinamicamente i modelli OpenRouter
     openrouter_models = await load_openrouter_models()
     
+    # Carica dinamicamente i modelli locali da LM Studio
+    local_models = await load_local_models()
+    
     return {
         "providers": SUPPORTED_PROVIDERS,
         "default_provider": DEFAULT_PROVIDER,
         "models": {
             "azure": AZURE_SUPPORTED_MODELS,
             "openrouter": openrouter_models,
-            "local": LOCAL_SUPPORTED_MODELS
+            "local": local_models
         }
     }
 
@@ -225,7 +259,7 @@ async def get_providers():
             status["description"] = "OpenRouter AI (Free models)"
         elif provider == "local":
             status["available"] = bool(LOCAL_ENDPOINT)
-            status["models"] = LOCAL_SUPPORTED_MODELS
+            status["models"] = await load_local_models()
             status["description"] = "Local AI Server"
         
         providers_status.append(status)
