@@ -1,13 +1,265 @@
-# 🐙 KrakenGPT - Multi-Provider AI Chatbot
+# 🤖 KrakenGPT - Advanced RAG-Powered Chatbot
 
-![License](https://img.shields.io/badge/license-MIT-blue.svg)
-![Python](https://img.shields.io/badge/python-3.8%2B-blue)
-![FastAPI](https://img.shields.io/badge/FastAPI-0.68.0%2B-green)
-![React](https://img.shields.io/badge/React-18.2.0-blue)
+![Python](https://img.shields.io/badge/Python-3.9+-blue.svg)
+![React](https://img.shields.io/badge/React-18.0+-blue.svg)
+![FastAPI](https://img.shields.io/badge/FastAPI-0.100+-green.svg)
+![License](https://img.shields.io/badge/License-MIT-yellow.svg)
 
-**KrakenGPT** is a sophisticated multi-provider chatbot application that supports Azure OpenAI, OpenRouter, and Local AI servers, providing an intelligent conversational experience with advanced project management and enhanced markdown rendering.
+**KrakenGPT** is a sophisticated, production-ready chatbot system that combines **Retrieval-Augmented Generation (RAG)** with multiple AI providers for enhanced conversational experiences.
 
-## 🌟 Features
+## 🚀 **Key Features**
+
+### 🧠 **Multi-Provider AI Support**
+- **Azure OpenAI** - Enterprise-grade GPT models
+- **OpenRouter** - 16+ tested free models (Meta Llama, Google Gemma, Anthropic Claude)
+- **Local Models** - Support for self-hosted AI models
+
+### 📚 **Advanced RAG System**
+- **Semantic Document Search** using sentence-transformers
+- **Intelligent Document Chunking** for optimal context retrieval
+- **Real-time Knowledge Base** with document upload capability
+- **Context-Aware Responses** powered by embedded knowledge
+
+### 🎨 **Modern Frontend**
+- **React-based UI** with professional Lucide React icons
+- **Responsive Design** with elegant dark theme
+- **Real-time Streaming** responses for better UX
+- **Conversation Management** with project organization
+
+### 🔧 **Production Features**
+- **RESTful API** built with FastAPI
+- **SQLite Database** for conversation persistence
+- **Environment-based Configuration** for secure deployment
+- **Comprehensive Logging** for monitoring and debugging
+
+## 📋 **Prerequisites**
+
+- **Python 3.9+**
+- **Node.js 16+** (for React frontend)
+- **Git**
+
+## 🛠️ **Installation**
+
+### 1. **Clone the Repository**
+```bash
+git clone https://github.com/Lorenzokraken/kraken-gpt.git
+cd kraken-gpt
+```
+
+### 2. **Backend Setup**
+```bash
+# Create virtual environment
+python -m venv .venv
+
+# Activate virtual environment
+# Windows:
+.venv\Scripts\activate
+# macOS/Linux:
+source .venv/bin/activate
+
+# Install dependencies
+pip install -r requirements.txt
+```
+
+### 3. **Frontend Setup**
+```bash
+cd react-frontend
+npm install
+cd ..
+```
+
+### 4. **Environment Configuration**
+```bash
+# Copy environment template
+cp .env.example .env
+
+# Edit .env with your API keys
+# Required: Add your API keys for desired providers
+```
+
+#### **Environment Variables:**
+```bash
+# Azure OpenAI (Optional)
+AZURE_DEPLOYMENT_NAME=your-deployment-name
+AZURE_ENDPOINT=https://your-endpoint.openai.azure.com
+AZURE_API_KEY=your-azure-api-key
+
+# OpenRouter (16+ Free Models Available)
+OPENROUTER_API_KEY=your-openrouter-api-key
+
+# Local AI Models (Optional)
+LOCAL_ENDPOINT=http://localhost:1234/v1/chat/completions
+LOCAL_MODEL=your-local-model-name
+```
+
+## 🚀 **Running the Application**
+
+### **Development Mode**
+
+#### **1. Start Backend Server**
+```bash
+python main.py
+```
+*Backend will run on http://localhost:8000*
+
+#### **2. Start Frontend (New Terminal)**
+```bash
+cd react-frontend
+npm start
+```
+*Frontend will run on http://localhost:3000*
+
+### **Production Deployment**
+```bash
+# Build React frontend
+cd react-frontend
+npm run build
+cd ..
+
+# Run with production settings
+uvicorn main:app --host 0.0.0.0 --port 8000
+```
+
+## 📖 **Usage Guide**
+
+### **1. Basic Chat**
+- Select your preferred AI provider (Azure, OpenRouter, Local)
+- Choose from 16+ tested models
+- Start chatting with advanced AI responses
+
+### **2. RAG Document Upload**
+- Upload documents (PDF, TXT, DOCX, MD)
+- Documents are automatically chunked and embedded
+- Ask questions about your uploaded content
+- Get contextually aware responses
+
+### **3. Conversation Management**
+- Organize chats into projects
+- Persistent conversation history
+- Reset context when needed
+- Export/import conversations
+
+## 🤖 **Available Models**
+
+### **OpenRouter Free Models (Tested & Working)**
+
+#### **🏆 High Quality Models**
+- `meta-llama/llama-3.1-8b-instruct:free`
+- `microsoft/phi-3-mini-128k-instruct:free`
+- `google/gemma-2-9b-it:free`
+
+#### **⚡ Specialized Models**
+- `qwen/qwen-2-7b-instruct:free`
+- `mistralai/mistral-7b-instruct:free`
+- `openchat/openchat-7b:free`
+
+#### **🚀 Lightweight Models**
+- `huggingface/CodeBERTa-small-v1`
+- `nousresearch/nous-capybara-7b:free`
+
+*All models are regularly tested for availability and performance.*
+
+## 🏗️ **Architecture**
+
+```
+KrakenGPT/
+├── main.py                 # FastAPI backend server
+├── rag_simple.py          # RAG implementation
+├── requirements.txt       # Python dependencies
+├── .env.example          # Environment template
+├── db/                   # Database modules
+│   ├── db.py            # Database operations
+│   └── init_db.py       # Database initialization
+├── react-frontend/       # React application
+│   ├── src/
+│   │   ├── App.js       # Main React component
+│   │   ├── style.css    # Modern styling
+│   │   └── MarkdownRenderer.js  # Enhanced markdown
+│   ├── package.json     # Node dependencies
+│   └── public/          # Static assets
+└── test_scripts/        # Model testing utilities
+```
+
+## 🔧 **Configuration**
+
+### **Customizing Models**
+Edit the model lists in `main.py`:
+```python
+OPENROUTER_SUPPORTED_MODELS = [
+    "meta-llama/llama-3.1-8b-instruct:free",
+    # Add your preferred models
+]
+```
+
+### **RAG Settings**
+Configure document processing in `rag_simple.py`:
+```python
+CHUNK_SIZE = 1000        # Document chunk size
+CHUNK_OVERLAP = 200      # Overlap between chunks
+EMBEDDING_MODEL = "all-MiniLM-L6-v2"  # Sentence transformer model
+```
+
+## 🐛 **Troubleshooting**
+
+### **Common Issues**
+
+#### **Backend Won't Start**
+```bash
+# Check Python version
+python --version  # Should be 3.9+
+
+# Verify dependencies
+pip install -r requirements.txt
+
+# Check port availability
+netstat -an | findstr :8000
+```
+
+#### **Frontend Build Errors**
+```bash
+# Clear cache and reinstall
+cd react-frontend
+rm -rf node_modules package-lock.json
+npm install
+```
+
+#### **API Key Issues**
+- Verify `.env` file exists and contains valid keys
+- Check API key formats match provider requirements
+- Ensure no trailing spaces in environment variables
+
+## 🤝 **Contributing**
+
+1. **Fork** the repository
+2. **Create** a feature branch (`git checkout -b feature/amazing-feature`)
+3. **Commit** your changes (`git commit -m 'Add amazing feature'`)
+4. **Push** to the branch (`git push origin feature/amazing-feature`)
+5. **Open** a Pull Request
+
+## 📝 **License**
+
+This project is licensed under the **MIT License** - see the [LICENSE](LICENSE) file for details.
+
+## 🙋‍♂️ **Support**
+
+- 📧 **Issues**: [GitHub Issues](https://github.com/Lorenzokraken/kraken-gpt/issues)
+- 💬 **Discussions**: [GitHub Discussions](https://github.com/Lorenzokraken/kraken-gpt/discussions)
+- 📖 **Documentation**: See this README and inline code comments
+
+## 🌟 **Acknowledgments**
+
+- **OpenAI** for GPT models and API
+- **Microsoft Azure** for enterprise AI services
+- **OpenRouter** for democratizing AI model access
+- **Hugging Face** for sentence-transformers
+- **FastAPI** for the excellent Python web framework
+- **React** team for the frontend framework
+
+---
+
+**Made with ❤️ by [Lorenzo](https://github.com/Lorenzokraken)**
+
+*KrakenGPT - Unleashing the power of conversational AI with RAG*
 
 ### 🤖 **Multi-Provider AI Support**
 - **Azure OpenAI** - Enterprise-grade models (GPT-4, GPT-3.5-turbo)
