@@ -1,0 +1,142 @@
+[
+  {
+    "model": "meta-llama/llama-3.1-8b-instruct:free",
+    "status": "http_error",
+    "response": null,
+    "error": "HTTP 401: {\"error\":{\"message\":\"User not found.\",\"code\":401}}",
+    "response_time": 0.3
+  },
+  {
+    "model": "microsoft/phi-3-mini-128k-instruct:free",
+    "status": "http_error",
+    "response": null,
+    "error": "HTTP 401: {\"error\":{\"message\":\"User not found.\",\"code\":401}}",
+    "response_time": 0.22
+  },
+  {
+    "model": "google/gemma-2-9b-it:free",
+    "status": "http_error",
+    "response": null,
+    "error": "HTTP 401: {\"error\":{\"message\":\"User not found.\",\"code\":401}}",
+    "response_time": 0.32
+  },
+  {
+    "model": "qwen/qwen-2-7b-instruct:free",
+    "status": "http_error",
+    "response": null,
+    "error": "HTTP 401: {\"error\":{\"message\":\"User not found.\",\"code\":401}}",
+    "response_time": 0.08
+  },
+  {
+    "model": "microsoft/phi-3-medium-128k-instruct:free",
+    "status": "http_error",
+    "response": null,
+    "error": "HTTP 401: {\"error\":{\"message\":\"User not found.\",\"code\":401}}",
+    "response_time": 0.09
+  },
+  {
+    "model": "meta-llama/llama-3.1-70b-instruct:free",
+    "status": "http_error",
+    "response": null,
+    "error": "HTTP 401: {\"error\":{\"message\":\"User not found.\",\"code\":401}}",
+    "response_time": 0.09
+  },
+  {
+    "model": "google/gemma-2-27b-it:free",
+    "status": "http_error",
+    "response": null,
+    "error": "HTTP 401: {\"error\":{\"message\":\"User not found.\",\"code\":401}}",
+    "response_time": 0.09
+  },
+  {
+    "model": "anthropic/claude-3-haiku:beta",
+    "status": "http_error",
+    "response": null,
+    "error": "HTTP 401: {\"error\":{\"message\":\"User not found.\",\"code\":401}}",
+    "response_time": 0.09
+  },
+  {
+    "model": "openai/gpt-3.5-turbo",
+    "status": "http_error",
+    "response": null,
+    "error": "HTTP 401: {\"error\":{\"message\":\"User not found.\",\"code\":401}}",
+    "response_time": 0.11
+  },
+  {
+    "model": "huggingfaceh4/zephyr-7b-beta:free",
+    "status": "http_error",
+    "response": null,
+    "error": "HTTP 401: {\"error\":{\"message\":\"User not found.\",\"code\":401}}",
+    "response_time": 0.09
+  },
+  {
+    "model": "openchat/openchat-7b:free",
+    "status": "http_error",
+    "response": null,
+    "error": "HTTP 401: {\"error\":{\"message\":\"User not found.\",\"code\":401}}",
+    "response_time": 0.09
+  },
+  {
+    "model": "gryphe/mythomist-7b:free",
+    "status": "http_error",
+    "response": null,
+    "error": "HTTP 401: {\"error\":{\"message\":\"User not found.\",\"code\":401}}",
+    "response_time": 0.09
+  },
+  {
+    "model": "undi95/toppy-m-7b:free",
+    "status": "http_error",
+    "response": null,
+    "error": "HTTP 401: {\"error\":{\"message\":\"User not found.\",\"code\":401}}",
+    "response_time": 0.11
+  },
+  {
+    "model": "openrouter/auto",
+    "status": "http_error",
+    "response": null,
+    "error": "HTTP 401: {\"error\":{\"message\":\"User not found.\",\"code\":401}}",
+    "response_time": 0.08
+  },
+  {
+    "model": "nousresearch/nous-capybara-7b:free",
+    "status": "http_error",
+    "response": null,
+    "error": "HTTP 401: {\"error\":{\"message\":\"User not found.\",\"code\":401}}",
+    "response_time": 0.19
+  },
+  {
+    "model": "mistralai/mistral-7b-instruct:free",
+    "status": "http_error",
+    "response": null,
+    "error": "HTTP 401: {\"error\":{\"message\":\"User not found.\",\"code\":401}}",
+    "response_time": 0.09
+  },
+  {
+    "model": "pygmalionai/mythalion-13b:free",
+    "status": "http_error",
+    "response": null,
+    "error": "HTTP 401: {\"error\":{\"message\":\"User not found.\",\"code\":401}}",
+    "response_time": 0.08
+  },
+  {
+    "model": "xwin-lm/xwin-lm-70b:free",
+    "status": "http_error",
+    "response": null,
+    "error": "HTTP 401: {\"error\":{\"message\":\"User not found.\",\"code\":401}}",
+    "response_time": 0.09
+  },
+  {
+    "model": "alpindale/goliath-120b:free",
+    "status": "http_error",
+    "response": null,
+    "error": "HTTP 401: {\"error\":{\"message\":\"User not found.\",\"code\":401}}",
+    "response_time": 0.1
+  },
+  {
+    "model": "neversleep/noromaid-mixtral-8x7b-instruct:free",
+    "status": "http_error",
+    "response": null,
+    "error": "HTTP 401: {\"error\":{\"message\":\"User not found.\",\"code\":401}}",
+    "response_time": 0.16
+  }
+]

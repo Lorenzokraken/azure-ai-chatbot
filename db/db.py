@@ -51,6 +51,37 @@ class DatabaseManager:
             CREATE INDEX IF NOT EXISTS idx_chats_project_id ON chats (project_id)
         ''')
         
+        # RAG Tables - Essenziali per document storage e retrieval
+        cursor.execute('''
+            CREATE TABLE IF NOT EXISTS rag_documents (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                project_id INTEGER NOT NULL,
+                filename TEXT NOT NULL,
+                content TEXT NOT NULL,
+                created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                FOREIGN KEY (project_id) REFERENCES projects (id) ON DELETE CASCADE
+            )
+        ''')
+        
+        cursor.execute('''
+            CREATE TABLE IF NOT EXISTS rag_chunks (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                document_id INTEGER NOT NULL,
+                content TEXT NOT NULL,
+                embedding TEXT, -- JSON array come stringa per semplicità
+                created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                FOREIGN KEY (document_id) REFERENCES rag_documents (id) ON DELETE CASCADE
+            )
+        ''')
+        
+        # Indici per performance RAG
+        cursor.execute('''
+            CREATE INDEX IF NOT EXISTS idx_rag_docs_project ON rag_documents (project_id)
+        ''')
+        cursor.execute('''
+            CREATE INDEX IF NOT EXISTS idx_rag_chunks_document ON rag_chunks (document_id)
+        ''')
+        
         conn.commit()
         conn.close()
     

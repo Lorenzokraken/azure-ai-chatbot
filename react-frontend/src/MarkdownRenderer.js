@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
+import CodeBlock from './CodeBlock';
 
 // 1. Error Boundary Component
 // This class component will catch rendering errors in its children.
@@ -63,25 +64,31 @@ const MemoizedMarkdownRenderer = React.memo(({ content }) => {
   
   // Function to format the markdown content with emojis and better spacing
   const formatMarkdownContent = (content) => {
-    // Add emojis to headers (but preserve content)
-    content = content.replace(/^# (.+)$/gm, '## 🚀 $1');
-    content = content.replace(/^## (.+)$/gm, '### 💡 $1');
-    content = content.replace(/^### (.+)$/gm, '#### 📌 $1');
+    // Preserve existing headers but don't add emojis (we'll add them in components)
     
     // Add spacing before headers
-    content = content.replace(/(\n)(#+ )/g, '\n\n$2');
+    content = content.replace(/(\n)(#{1,6} )/g, '\n\n$2');
     
-    // Add spacing after paragraphs
-    content = content.replace(/(\n\n[^#\n].*)(\n\n#)/g, '$1\n\n---\n$2');
-    
-    // Format blockquotes with emojis
-    content = content.replace(/^> (.+)$/gm, '> 🤖 $1');
+    // Add spacing around code blocks
+    content = content.replace(/(\n)(```)/g, '\n\n$2');
+    content = content.replace(/(```\n)/g, '$1\n');
     
     // Add spacing around lists
-    content = content.replace(/(\n)([+-] )/g, '\n\n$2');
+    content = content.replace(/(\n)([*+-] )/g, '\n\n$2');
+    content = content.replace(/(\n)(\d+\. )/g, '\n\n$2');
     
-    // Ensure proper line breaks
+    // Add spacing around blockquotes
+    content = content.replace(/(\n)(> )/g, '\n\n$2');
+    
+    // Add spacing around horizontal rules
+    content = content.replace(/(\n)(---)/g, '\n\n$2');
+    content = content.replace(/(---\n)/g, '$1\n');
+    
+    // Ensure proper line breaks (max 2 consecutive newlines)
     content = content.replace(/\n{3,}/g, '\n\n');
+    
+    // Trim whitespace at start and end
+    content = content.trim();
     
     return content;
   };
@@ -92,26 +99,18 @@ const MemoizedMarkdownRenderer = React.memo(({ content }) => {
     <ReactMarkdown 
       remarkPlugins={[remarkGfm]}
       components={{
-        // Add custom styling for blockquotes
-        blockquote: ({node, ...props}) => (
-          <blockquote style={{ 
-            borderLeft: '4px solid #10a37f', 
-            paddingLeft: '16px', 
-            marginLeft: '0',
-            color: '#d1d5db',
-            fontStyle: 'italic'
-          }} {...props} />
-        ),
-        // Add custom styling for code blocks
+        // Custom code component with syntax highlighting
         code: ({node, inline, className, children, ...props}) => {
           if (inline) {
             return (
               <code 
                 style={{ 
                   backgroundColor: '#3c3c3c', 
-                  padding: '2px 4px', 
+                  padding: '2px 6px', 
                   borderRadius: '4px',
-                  color: '#10a37f'
+                  color: '#10a37f',
+                  fontSize: '0.9em',
+                  fontFamily: 'Consolas, Monaco, "Andale Mono", "Ubuntu Mono", monospace'
                 }} 
                 {...props}
               >
@@ -120,72 +119,188 @@ const MemoizedMarkdownRenderer = React.memo(({ content }) => {
             );
           }
           return (
-            <code 
-              className={className} 
-              style={{ 
-                backgroundColor: '#3c3c3c',
-                color: '#ffffff',
-                padding: '16px',
-                borderRadius: '8px',
-                display: 'block',
-                overflowX: 'auto'
-              }} 
-              {...props}
-            >
+            <CodeBlock className={className} {...props}>
               {children}
-            </code>
+            </CodeBlock>
           );
         },
-        // Add custom styling for lists
+        // Enhanced styling for blockquotes
+        blockquote: ({node, ...props}) => (
+          <blockquote style={{ 
+            borderLeft: '4px solid #10a37f', 
+            paddingLeft: '16px', 
+            marginLeft: '0',
+            marginRight: '0',
+            marginTop: '16px',
+            marginBottom: '16px',
+            color: '#d1d5db',
+            fontStyle: 'italic',
+            backgroundColor: '#1a1a1a',
+            padding: '12px 16px',
+            borderRadius: '0 8px 8px 0'
+          }} {...props} />
+        ),
+        // Enhanced styling for lists
         ul: ({node, ...props}) => (
-          <ul style={{ paddingLeft: '20px' }} {...props} />
+          <ul style={{ 
+            paddingLeft: '20px',
+            marginBottom: '16px',
+            listStyleType: '• '
+          }} {...props} />
+        ),
+        ol: ({node, ...props}) => (
+          <ol style={{ 
+            paddingLeft: '20px',
+            marginBottom: '16px'
+          }} {...props} />
         ),
         li: ({node, ...props}) => (
-          <li style={{ marginBottom: '8px' }} {...props} />
+          <li style={{ 
+            marginBottom: '8px',
+            lineHeight: '1.6'
+          }} {...props} />
         ),
-        // Add custom styling for headers
+        // Enhanced styling for headers with better spacing and colors
         h1: ({node, children, ...props}) => (
           <h1 style={{ 
-            borderBottom: '1px solid #4b5563', 
+            borderBottom: '2px solid #10a37f', 
             paddingBottom: '8px',
-            marginBottom: '16px',
-            color: '#ffffff'
+            marginTop: '32px',
+            marginBottom: '20px',
+            color: '#ffffff',
+            fontSize: '2em',
+            fontWeight: 'bold'
           }} {...props}>
-            {children}
+            🚀 {children}
           </h1>
         ),
         h2: ({node, children, ...props}) => (
           <h2 style={{ 
-            marginTop: '24px',
-            marginBottom: '12px',
-            color: '#ffffff'
+            marginTop: '28px',
+            marginBottom: '16px',
+            color: '#ffffff',
+            fontSize: '1.5em',
+            fontWeight: 'bold',
+            borderLeft: '4px solid #10a37f',
+            paddingLeft: '12px'
           }} {...props}>
-            {children}
+            💡 {children}
           </h2>
         ),
         h3: ({node, children, ...props}) => (
           <h3 style={{ 
-            marginTop: '20px',
-            marginBottom: '10px',
-            color: '#ffffff'
+            marginTop: '24px',
+            marginBottom: '12px',
+            color: '#ffffff',
+            fontSize: '1.25em',
+            fontWeight: 'bold'
           }} {...props}>
-            {children}
+            📌 {children}
           </h3>
         ),
         h4: ({node, children, ...props}) => (
           <h4 style={{ 
-            marginTop: '16px',
-            marginBottom: '8px',
-            color: '#d1d5db'
+            marginTop: '20px',
+            marginBottom: '10px',
+            color: '#d1d5db',
+            fontSize: '1.1em',
+            fontWeight: 'bold'
           }} {...props}>
-            {children}
+            ▶️ {children}
           </h4>
         ),
-        // Add custom styling for paragraphs
+        h5: ({node, children, ...props}) => (
+          <h5 style={{ 
+            marginTop: '16px',
+            marginBottom: '8px',
+            color: '#d1d5db',
+            fontSize: '1em',
+            fontWeight: 'bold'
+          }} {...props}>
+            🔸 {children}
+          </h5>
+        ),
+        h6: ({node, children, ...props}) => (
+          <h6 style={{ 
+            marginTop: '14px',
+            marginBottom: '6px',
+            color: '#9ca3af',
+            fontSize: '0.9em',
+            fontWeight: 'bold'
+          }} {...props}>
+            🔹 {children}
+          </h6>
+        ),
+        // Enhanced styling for paragraphs
         p: ({node, ...props}) => (
           <p style={{ 
             marginBottom: '16px',
-            lineHeight: '1.6'
+            lineHeight: '1.7',
+            color: '#e5e7eb'
+          }} {...props} />
+        ),
+        // Enhanced styling for tables
+        table: ({node, ...props}) => (
+          <div style={{ overflowX: 'auto', marginBottom: '16px' }}>
+            <table style={{
+              width: '100%',
+              borderCollapse: 'collapse',
+              backgroundColor: '#1a1a1a',
+              borderRadius: '8px',
+              overflow: 'hidden'
+            }} {...props} />
+          </div>
+        ),
+        thead: ({node, ...props}) => (
+          <thead style={{
+            backgroundColor: '#2d2d2d'
+          }} {...props} />
+        ),
+        th: ({node, ...props}) => (
+          <th style={{
+            padding: '12px',
+            textAlign: 'left',
+            borderBottom: '2px solid #10a37f',
+            color: '#ffffff',
+            fontWeight: 'bold'
+          }} {...props} />
+        ),
+        td: ({node, ...props}) => (
+          <td style={{
+            padding: '12px',
+            borderBottom: '1px solid #404040',
+            color: '#e5e7eb'
+          }} {...props} />
+        ),
+        // Enhanced styling for horizontal rules
+        hr: ({node, ...props}) => (
+          <hr style={{
+            border: 'none',
+            height: '2px',
+            background: 'linear-gradient(to right, transparent, #10a37f, transparent)',
+            margin: '24px 0'
+          }} {...props} />
+        ),
+        // Enhanced styling for links
+        a: ({node, ...props}) => (
+          <a style={{
+            color: '#10a37f',
+            textDecoration: 'underline',
+            textDecorationStyle: 'dotted'
+          }} {...props} />
+        ),
+        // Enhanced styling for strong/bold text
+        strong: ({node, ...props}) => (
+          <strong style={{
+            color: '#ffffff',
+            fontWeight: 'bold'
+          }} {...props} />
+        ),
+        // Enhanced styling for emphasis/italic text
+        em: ({node, ...props}) => (
+          <em style={{
+            color: '#d1d5db',
+            fontStyle: 'italic'
           }} {...props} />
         )
       }}
